@@ -39,6 +39,14 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+        admin_email = os.environ.get("ADMIN_EMAIL")
+        admin_password = os.environ.get("ADMIN_PASSWORD")
+        if admin_email and admin_password and not AdminUser.query.filter_by(email=admin_email.lower()).first():
+            owner = AdminUser(email=admin_email.lower(), name="Owner")
+            owner.set_password(admin_password)
+            db.session.add(owner)
+            db.session.commit()
+
     @app.context_processor
     def inject_globals():
         return {
