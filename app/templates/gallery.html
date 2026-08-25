@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Gallery | {{ business_name }}{% endblock %}
+{% block description %}Photos and videos of blinds, shades, and window treatment installations by {{ business_name }}, serving all of Florida.{% endblock %}
+{% block content %}
+
+<section class="hero" style="padding-bottom:48px;">
+  <div class="container" style="grid-template-columns: 1fr;">
+    <div>
+      <span class="eyebrow">Our Work</span>
+      <h1>A Small Sample of What We've <span class="accent">Installed.</span></h1>
+      <p class="lead">A look at real blinds, shades, and window treatment projects completed by Dr Blinds Decor &amp; Services LLC.</p>
+      <p style="color:var(--text-muted-on-dark); margin-top:14px;">Look for more installations on our Instagram: <a href="{{ business_instagram_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">@{{ business_instagram_handle }}</a> or on <a href="{{ business_facebook_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">Facebook</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white" style="padding-top:40px;">
+  <div class="container">
+    {% if items %}
+      <div class="gallery-grid">
+        {% for item in items %}
+          <button type="button" class="gallery-item" data-type="{{ item.type }}" data-src="{{ url_for('static', filename='gallery/' ~ item.filename) }}" data-title="{{ item.title }}" aria-label="View {{ item.title }}">
+            {% if item.type == 'video' %}
+              <video src="{{ url_for('static', filename='gallery/' ~ item.filename) }}" {% if item.poster %}poster="{{ url_for('static', filename='gallery/' ~ item.poster) }}"{% endif %} muted playsinline preload="metadata"></video>
+              <span class="gallery-play" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="#1c1400"/></svg>
+              </span>
+            {% else %}
+              <img src="{{ url_for('static', filename='gallery/' ~ item.filename) }}" alt="{{ item.title }}" loading="lazy">
+            {% endif %}
+          </button>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state card" style="max-width:520px; margin:0 auto;">
+        <h3>Photos &amp; videos coming soon</h3>
+        <p>We're adding photos and videos of recent installations. Check back soon, or ask us to see examples of our work.</p>
+        <div style="margin-top:18px;">
+          <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#f5f1e6" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="lightbox-body" id="lightbox-body"></div>
+</div>
+
+{% endblock %}

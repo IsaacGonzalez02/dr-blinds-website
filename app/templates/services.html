@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Services | {{ business_name }}{% endblock %}
+{% block content %}
+
+<section class="hero" style="padding-bottom:56px;">
+  <div class="container" style="grid-template-columns: 1fr;">
+    <div>
+      <span class="eyebrow">Services</span>
+      <h1>Installation &amp; Repair, <span class="accent">All Types of Blinds.</span></h1>
+      <p class="lead">Whatever's on your windows, we can install it, fix it, or replace it &mdash; backed by 20 years of experience. Every project starts with a free estimate.</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white">
+  <div class="container">
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Custom Blinds</h3>
+        <p>Wood, faux wood, vertical &amp; mini blinds, fitted precisely to your windows and doors.</p>
+      </div>
+      <div class="card">
+        <h3>Shades</h3>
+        <p>Roller, cellular/honeycomb, roman, and blackout shades for light control and privacy.</p>
+      </div>
+      <div class="card">
+        <h3>Motorized Shades</h3>
+        <p>Remote &amp; app-controlled shades for a modern, hands-free window treatment.</p>
+      </div>
+      <div class="card">
+        <h3>Shutters</h3>
+        <p>Interior plantation shutters that add lasting value to any room.</p>
+      </div>
+      <div class="card">
+        <h3>Installation</h3>
+        <p>Clean, accurate installs for residential and commercial properties.</p>
+      </div>
+      <div class="card">
+        <h3>Repairs &amp; Service</h3>
+        <p>Broken slats, tangled cords, motor issues, and general maintenance on existing blinds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-heading">
+      <span class="free-badge">No Cost to Get Started</span>
+      <h2 style="margin-top:18px;">Not Sure What You Need?</h2>
+      <p>Tell us about your space and we'll recommend the right product during your free estimate visit.</p>
+      <div style="margin-top:20px;">
+        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

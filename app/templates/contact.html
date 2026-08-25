@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Contact | {{ business_name }}{% endblock %}
+{% block content %}
+
+<section class="hero" style="padding-bottom:56px;">
+  <div class="container" style="grid-template-columns: 1fr;">
+    <div>
+      <span class="eyebrow">Contact</span>
+      <h1>Let's Talk About Your <span class="accent">Windows.</span></h1>
+      <p class="lead">Call, email, or send a free estimate request &mdash; whichever's easiest for you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white">
+  <div class="container">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Reach Us Directly</h3>
+        {% for c in business_contacts %}
+          <p style="margin-bottom:6px;"><strong>{{ c.name if c.name else c.role }}</strong>{% if c.name and c.role %} &mdash; {{ c.role }}{% endif %}<br>
+          <a href="tel:{{ c.phone|replace('(', '')|replace(')', '')|replace(' ', '')|replace('-', '') }}" style="color:var(--gold-1); font-weight:600;">{{ c.phone }}</a></p>
+        {% endfor %}
+        <p style="margin-top:18px;"><a href="mailto:{{ business_email }}" style="color:var(--gold-1); font-weight:600;">{{ business_email }}</a></p>
+      </div>
+      <div class="card">
+        <h3>Location</h3>
+        <p>{{ business_address }}</p>
+        <p>We serve all of Florida, with immediate, priority service throughout South Florida.</p>
+        <h3 style="margin-top:24px;">Follow Us</h3>
+        <p><a href="{{ business_instagram_url }}" target="_blank" rel="noopener" style="color:var(--gold-1); font-weight:600;">@{{ business_instagram_handle }} on Instagram</a></p>
+        <p><a href="{{ business_facebook_url }}" target="_blank" rel="noopener" style="color:var(--gold-1); font-weight:600;">Dr Blinds Decor &amp; Services LLC on Facebook</a></p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px; text-align:center;">
+      <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

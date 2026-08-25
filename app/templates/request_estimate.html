@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Schedule Your Free Estimate | {{ business_name }}{% endblock %}
+{% block content %}
+
+<section class="hero" style="padding-bottom:48px;">
+  <div class="container" style="grid-template-columns: 1fr; text-align:center;">
+    <div>
+      <span class="free-badge">100% Free, No Obligation</span>
+      <h1 style="margin-top:18px;">Schedule Your Free Estimate</h1>
+      <p class="lead" style="margin:0 auto;">Tell us about your project and we'll get back to you to confirm a time. Estimates are always free &mdash; no pressure, no cost.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light" style="padding-top:0;">
+  <div class="container">
+    <form class="form-card" method="POST" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div class="form-grid form-grid-2">
+        <div class="form-row">
+          {{ form.name.label }}
+          {{ form.name(placeholder="Jane Smith") }}
+          {% if form.name.errors %}<ul class="field-errors">{% for e in form.name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+        <div class="form-row">
+          {{ form.phone.label }}
+          {{ form.phone(placeholder="(555) 123-4567") }}
+          {% if form.phone.errors %}<ul class="field-errors">{% for e in form.phone.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      </div>
+
+      <div class="form-row">
+        {{ form.email.label }}
+        {{ form.email(placeholder="you@example.com") }}
+        {% if form.email.errors %}<ul class="field-errors">{% for e in form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+
+      <div class="form-row">
+        {{ form.address.label }}
+        {{ form.address(placeholder="Street address, city, state, ZIP") }}
+        {% if form.address.errors %}<ul class="field-errors">{% for e in form.address.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+
+      <div class="form-grid form-grid-2">
+        <div class="form-row">
+          {{ form.preferred_date.label }}
+          {{ form.preferred_date(placeholder="e.g. Next Tuesday") }}
+        </div>
+        <div class="form-row">
+          {{ form.preferred_time.label }}
+          {{ form.preferred_time(placeholder="e.g. Morning, 10 AM") }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        {{ form.description.label }}
+        {{ form.description(placeholder="What rooms/windows, and what are you looking for?") }}
+      </div>
+
+      <div class="form-row">
+        {{ form.photo.label }}
+        {{ form.photo() }}
+        <div class="hint">Optional &mdash; a photo of the window(s) helps us prepare.</div>
+        {% if form.photo.errors %}<ul class="field-errors">{% for e in form.photo.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-gold btn-block">Request My Free Estimate</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

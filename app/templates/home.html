@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}{{ business_name }} | Blinds, Shades & Window Treatments{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="container">
+    <div>
+      <span class="eyebrow">Serving All of Florida &middot; 20 Years of Experience</span>
+      <h1>Custom Blinds &amp; Window Treatments, <span class="accent">Installed Right.</span></h1>
+      <p class="lead">With 20 years of experience, Dr Blinds Decor &amp; Services LLC installs and repairs all types of blinds and shades. {{ business_tagline }} &mdash; starting with a free, no-obligation estimate.</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+        <a href="tel:{{ business_phone_link }}" class="btn btn-outline-light">Call {{ business_phone }}</a>
+      </div>
+      <div class="hero-badges">
+        <span class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 20 Years of Experience</span>
+        <span class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Licensed &amp; Insured</span>
+        <span class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Free Estimates, Always</span>
+        <span class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Installation &amp; Repair</span>
+        <span class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> All Types of Blinds</span>
+      </div>
+    </div>
+    <div class="hero-visual hero-visual-photo">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Dr Blinds Decor &amp; Services LLC logo">
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark window-reveal" id="window-reveal">
+  <div class="container window-reveal-grid">
+    <div class="window-reveal-copy">
+      <span class="eyebrow">See The Difference</span>
+      <h2>{{ business_tagline }}</h2>
+      <p>New blinds and shades change how light fills a room. Watch what opening up your windows can do.</p>
+    </div>
+    <div class="window-reveal-art">
+      <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="bwSlat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f7d271"/>
+            <stop offset="0.5" stop-color="#dba838"/>
+            <stop offset="1" stop-color="#96701f"/>
+          </linearGradient>
+          <linearGradient id="bwGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff6df"/>
+            <stop offset="0.55" stop-color="#f6d383"/>
+            <stop offset="1" stop-color="#d9a94a"/>
+          </linearGradient>
+          <clipPath id="bwCenterClip"><rect x="205" y="45" width="150" height="275"/></clipPath>
+          <clipPath id="bwLeftClip"><polygon points="40,80 40,300 205,320 205,45"/></clipPath>
+          <clipPath id="bwRightClip"><polygon points="520,80 520,300 355,320 355,45"/></clipPath>
+        </defs>
+
+        <rect x="10" y="15" width="540" height="350" rx="16" fill="#15120b" stroke="#3d2c10" stroke-width="2"/>
+
+        <g>
+          <rect x="30" y="40" width="500" height="285" fill="url(#bwGlow)" clip-path="url(#bwCenterClip)"/>
+          <rect x="30" y="40" width="500" height="285" fill="url(#bwGlow)" clip-path="url(#bwLeftClip)"/>
+          <rect x="30" y="40" width="500" height="285" fill="url(#bwGlow)" clip-path="url(#bwRightClip)"/>
+        </g>
+
+        <g id="bwSlatStack">
+          <rect class="bw-slat" style="--rise:0px; animation-delay:0ms;" x="20" y="45" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:24px; animation-delay:60ms;" x="20" y="75" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:48px; animation-delay:120ms;" x="20" y="105" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:72px; animation-delay:180ms;" x="20" y="135" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:96px; animation-delay:240ms;" x="20" y="165" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:120px; animation-delay:300ms;" x="20" y="195" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:144px; animation-delay:360ms;" x="20" y="225" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:168px; animation-delay:420ms;" x="20" y="255" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" style="--rise:192px; animation-delay:480ms;" x="20" y="285" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+        </g>
+        <g clip-path="url(#bwCenterClip)"><use href="#bwSlatStack"/></g>
+        <g clip-path="url(#bwLeftClip)"><use href="#bwSlatStack"/></g>
+        <g clip-path="url(#bwRightClip)"><use href="#bwSlatStack"/></g>
+
+        <rect x="200" y="40" width="10" height="285" fill="#15120b"/>
+        <rect x="350" y="40" width="10" height="285" fill="#15120b"/>
+        <rect x="30" y="34" width="500" height="10" rx="3" fill="#3d2c10"/>
+
+        <rect x="6" y="352" width="548" height="16" rx="4" fill="url(#bwSlat)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">What We Do</span>
+      <h2>Full-Service Blinds &amp; Window Treatments</h2>
+      <p>From the first measurement to the final install, we handle it all &mdash; no subcontractors, no guesswork.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="#1c1400" stroke-width="1.6"/><path d="M4 9h16M4 14h16" stroke="#1c1400" stroke-width="1.6"/></svg></div>
+        <h3>Custom Blinds &amp; Shades</h3>
+        <p>Wood, faux wood, roller, cellular, motorized &amp; more &mdash; sized and styled for your windows.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21l2-7.5L2 9h7z" stroke="#1c1400" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <h3>Professional Installation</h3>
+        <p>Clean, precise installs done right the first time &mdash; residential or commercial.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="#1c1400" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Repairs &amp; Service</h3>
+        <p>Broken slats, stuck cords, motor issues &mdash; we repair what other companies won't touch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-heading">
+      <span class="free-badge">Estimates Are Always Free</span>
+      <h2 style="margin-top:18px;">Get a Free, No-Pressure Estimate</h2>
+      <p>Tell us a little about your project and we'll schedule a visit &mdash; no cost, no obligation.</p>
+      <div style="margin-top:20px;">
+        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">Why Dr Blinds</span>
+      <h2>Improving the View of Your Surroundings</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l3 6 6 1-4.5 4.5 1 6L12 17l-5.5 3.5 1-6L3 10l6-1z" stroke="#1c1400" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
+        <h3>20 Years of Experience</h3>
+        <p>Established and operating throughout Florida for 20 years &mdash; a proven track record of quality installs.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7M5 10v10h14V10" stroke="#1c1400" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Locally Owned &amp; Operated</h3>
+        <p>Based in Hollywood, FL, serving all of Florida &mdash; with immediate, priority service throughout South Florida.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 17V9M12 17V5M20 17v-4" stroke="#1c1400" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Straightforward Pricing</h3>
+        <p>Your quote comes only after we measure &mdash; so it's accurate, not a guess.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" stroke="#1c1400" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <h3>Licensed &amp; Insured</h3>
+        <p>Work with confidence knowing every job is backed by a licensed and insured team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
