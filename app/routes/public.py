@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import Blueprint, current_app, redirect, render_template, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from werkzeug.utils import secure_filename
@@ -119,8 +119,14 @@ def request_estimate():
             description=(form.description.data or "").strip() or None,
             photo_filename=photo_filename,
         )
-        db.session.add(est)
-        db.session.commit()
+        try:
+            db.session.add(est)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("Failed to save estimate request")
+            flash("We couldn't submit your request. Please try again or call us directly.", "error")
+            return render_template("request_estimate.html", form=form)
 
         notify_owner_new_request(est)
         if est.email:
