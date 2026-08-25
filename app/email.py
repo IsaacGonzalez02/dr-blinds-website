@@ -16,7 +16,7 @@ def _send(to_addr, subject, body):
     msg["From"] = cfg["SMTP_FROM"]
     msg["To"] = to_addr
     msg.set_content(body)
-    with smtplib.SMTP(cfg["SMTP_HOST"], cfg["SMTP_PORT"]) as server:
+    with smtplib.SMTP(cfg["SMTP_HOST"], cfg["SMTP_PORT"], timeout=10) as server:
         server.starttls()
         server.login(cfg["SMTP_USER"], cfg["SMTP_PASSWORD"])
         server.send_message(msg)
