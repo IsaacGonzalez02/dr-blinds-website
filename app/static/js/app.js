@@ -32,21 +32,40 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var windowReveal = document.getElementById("window-reveal");
-  if (windowReveal && "IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            windowReveal.classList.add("in-view");
-            observer.unobserve(windowReveal);
-          }
+  var bwSlats = windowReveal ? windowReveal.querySelectorAll(".bw-slat") : [];
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (windowReveal && bwSlats.length && !reducedMotion) {
+    var updateBwSlats = function () {
+      var rect = windowReveal.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var raw = (vh - rect.top) / (vh + rect.height * 0.35);
+      var progress = Math.max(0, Math.min(1, raw));
+      bwSlats.forEach(function (slat, i) {
+        var start = i * 0.07;
+        var span = 0.55;
+        var local = Math.max(0, Math.min(1, (progress - start) / span));
+        var eased = 1 - Math.pow(1 - local, 3);
+        var rise = parseFloat(slat.getAttribute("data-rise")) || 0;
+        var scaleY = 1 - eased * 0.88;
+        slat.style.transform = "translateY(" + (-eased * rise) + "px) scaleY(" + scaleY + ")";
+      });
+    };
+
+    var bwTicking = false;
+    var onBwScroll = function () {
+      if (!bwTicking) {
+        window.requestAnimationFrame(function () {
+          updateBwSlats();
+          bwTicking = false;
         });
-      },
-      { threshold: 0.35 }
-    );
-    observer.observe(windowReveal);
-  } else if (windowReveal) {
-    windowReveal.classList.add("in-view");
+        bwTicking = true;
+      }
+    };
+
+    updateBwSlats();
+    window.addEventListener("scroll", onBwScroll, { passive: true });
+    window.addEventListener("resize", onBwScroll);
   }
 
   var revealTargets = document.querySelectorAll(".card, .section-heading");

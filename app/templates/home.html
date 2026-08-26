@@ -67,7 +67,7 @@
       <p>New blinds and shades change how light fills a room. Watch what opening up your windows can do.</p>
     </div>
     <div class="window-reveal-art">
-      <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" id="bwSvg">
         <defs>
           <linearGradient id="bwSlat" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#f7d271"/>
@@ -79,6 +79,11 @@
             <stop offset="0.55" stop-color="#f6d383"/>
             <stop offset="1" stop-color="#d9a94a"/>
           </linearGradient>
+          <radialGradient id="bwSun" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fffaf0"/>
+            <stop offset="0.5" stop-color="#ffe6a3"/>
+            <stop offset="1" stop-color="#ffe6a3" stop-opacity="0"/>
+          </radialGradient>
           <clipPath id="bwCenterClip"><rect x="205" y="45" width="150" height="275"/></clipPath>
           <clipPath id="bwLeftClip"><polygon points="40,80 40,300 205,320 205,45"/></clipPath>
           <clipPath id="bwRightClip"><polygon points="520,80 520,300 355,320 355,45"/></clipPath>
@@ -92,16 +97,39 @@
           <rect x="30" y="40" width="500" height="285" fill="url(#bwGlow)" clip-path="url(#bwRightClip)"/>
         </g>
 
+        <g id="bwSkyline">
+          <circle cx="440" cy="105" r="46" fill="url(#bwSun)"/>
+          <circle cx="440" cy="105" r="16" fill="#fff8e6"/>
+          <g fill="#b9832f" opacity="0.55">
+            <rect x="48" y="215" width="34" height="110" />
+            <rect x="86" y="180" width="30" height="145" />
+            <rect x="120" y="235" width="38" height="90" />
+            <rect x="362" y="195" width="32" height="130" />
+            <rect x="398" y="245" width="40" height="80" />
+            <rect x="442" y="215" width="30" height="110" />
+            <rect x="476" y="255" width="34" height="70" />
+          </g>
+          <g fill="#8a611f" opacity="0.35">
+            <rect x="92" y="195" width="4" height="130"/>
+            <rect x="103" y="195" width="4" height="130"/>
+            <rect x="368" y="210" width="4" height="115"/>
+            <rect x="379" y="210" width="4" height="115"/>
+          </g>
+        </g>
+        <g clip-path="url(#bwCenterClip)"><use href="#bwSkyline"/></g>
+        <g clip-path="url(#bwLeftClip)"><use href="#bwSkyline"/></g>
+        <g clip-path="url(#bwRightClip)"><use href="#bwSkyline"/></g>
+
         <g id="bwSlatStack">
-          <rect class="bw-slat" style="--rise:0px; animation-delay:0ms;" x="20" y="45" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:24px; animation-delay:60ms;" x="20" y="75" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:48px; animation-delay:120ms;" x="20" y="105" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:72px; animation-delay:180ms;" x="20" y="135" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:96px; animation-delay:240ms;" x="20" y="165" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:120px; animation-delay:300ms;" x="20" y="195" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:144px; animation-delay:360ms;" x="20" y="225" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:168px; animation-delay:420ms;" x="20" y="255" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
-          <rect class="bw-slat" style="--rise:192px; animation-delay:480ms;" x="20" y="285" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="0" x="20" y="45" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="24" x="20" y="75" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="48" x="20" y="105" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="72" x="20" y="135" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="96" x="20" y="165" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="120" x="20" y="195" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="144" x="20" y="225" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="168" x="20" y="255" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
+          <rect class="bw-slat" data-rise="192" x="20" y="285" width="520" height="27" rx="2" fill="url(#bwSlat)"/>
         </g>
         <g clip-path="url(#bwCenterClip)"><use href="#bwSlatStack"/></g>
         <g clip-path="url(#bwLeftClip)"><use href="#bwSlatStack"/></g>
