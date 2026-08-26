@@ -8,14 +8,24 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", updateHeaderScrolled, { passive: true });
   }
 
-  var parallaxBg = document.getElementById("products-hero-bg");
-  var parallaxSection = document.getElementById("products-hero-parallax");
+  var parallaxSections = document.querySelectorAll(".hero-parallax");
   var reducedMotionParallax = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (parallaxBg && parallaxSection && !reducedMotionParallax) {
+  if (parallaxSections.length && !reducedMotionParallax) {
+    var parallaxPairs = Array.prototype.map.call(parallaxSections, function (section) {
+      var speed = parseFloat(section.getAttribute("data-parallax-speed"));
+      return {
+        section: section,
+        bg: section.querySelector(".hero-parallax-bg"),
+        speed: isNaN(speed) ? 0.35 : speed
+      };
+    }).filter(function (pair) { return pair.bg; });
+
     var updateParallax = function () {
-      var rect = parallaxSection.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      parallaxBg.style.transform = "translateY(" + (rect.top * 0.35) + "px)";
+      parallaxPairs.forEach(function (pair) {
+        var rect = pair.section.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        pair.bg.style.transform = "translateY(" + (rect.top * pair.speed) + "px)";
+      });
     };
     var parallaxTicking = false;
     var onParallaxScroll = function () {

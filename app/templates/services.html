@@ -2,15 +2,15 @@
 {% block title %}Services | {{ business_name }}{% endblock %}
 {% block content %}
 
-<section class="hero" style="padding-bottom:56px;">
-  <div class="container" style="grid-template-columns: 1fr;">
-    <div>
-      <span class="eyebrow">Services</span>
-      <h1>Installation &amp; Repair, <span class="accent">All Types of Blinds.</span></h1>
-      <p class="lead">Whatever's on your windows, we can install it, fix it, or replace it &mdash; backed by 20 years of experience. Every project starts with a free estimate.</p>
-      <div class="hero-actions">
-        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
-      </div>
+<section class="hero-parallax" id="services-hero-parallax" data-parallax-speed="0.22">
+  <div class="hero-parallax-bg" style="background-image: url('{{ url_for('static', filename='img/heroes/services-hero.jpg') }}');"></div>
+  <div class="hero-photo-overlay"></div>
+  <div class="container hero-photo-content">
+    <span class="eyebrow">Services</span>
+    <h1>Installation &amp; Repair, <span class="accent">All Types of Blinds.</span></h1>
+    <p class="lead">Whatever's on your windows, we can install it, fix it, or replace it &mdash; backed by 20 years of experience. Every project starts with a free estimate.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
     </div>
   </div>
 </section>

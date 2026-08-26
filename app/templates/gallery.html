@@ -3,14 +3,14 @@
 {% block description %}Photos and videos of blinds, shades, and window treatment installations by {{ business_name }}, serving all of Florida.{% endblock %}
 {% block content %}
 
-<section class="hero" style="padding-bottom:48px;">
-  <div class="container" style="grid-template-columns: 1fr;">
-    <div>
-      <span class="eyebrow">Our Work</span>
-      <h1>A Small Sample of What We've <span class="accent">Installed.</span></h1>
-      <p class="lead">A look at real blinds, shades, and window treatment projects completed by Dr Blinds Decor &amp; Services LLC.</p>
-      <p style="color:var(--text-muted-on-dark); margin-top:14px;">Look for more installations on our Instagram: <a href="{{ business_instagram_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">@{{ business_instagram_handle }}</a> or on <a href="{{ business_facebook_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">Facebook</a></p>
-    </div>
+<section class="hero-parallax" id="gallery-hero-parallax" data-parallax-speed="0.48">
+  <div class="hero-parallax-bg" style="background-image: url('{{ url_for('static', filename='img/heroes/gallery-hero.jpg') }}');"></div>
+  <div class="hero-photo-overlay"></div>
+  <div class="container hero-photo-content">
+    <span class="eyebrow">Our Work</span>
+    <h1>A Small Sample of What We've <span class="accent">Installed.</span></h1>
+    <p class="lead">A look at real blinds, shades, and window treatment projects completed by Dr Blinds Decor &amp; Services LLC.</p>
+    <p style="color:var(--text-muted-on-dark); margin-top:14px; text-shadow: 0 2px 10px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9);">Look for more installations on our Instagram: <a href="{{ business_instagram_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">@{{ business_instagram_handle }}</a> or on <a href="{{ business_facebook_url }}" target="_blank" rel="noopener" style="color:var(--gold-2); font-weight:600;">Facebook</a></p>
   </div>
 </section>
 

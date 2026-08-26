@@ -2,13 +2,13 @@
 {% block title %}Contact | {{ business_name }}{% endblock %}
 {% block content %}
 
-<section class="hero" style="padding-bottom:56px;">
-  <div class="container" style="grid-template-columns: 1fr;">
-    <div>
-      <span class="eyebrow">Contact</span>
-      <h1>Let's Talk About Your <span class="accent">Windows.</span></h1>
-      <p class="lead">Call, email, or send a free estimate request &mdash; whichever's easiest for you.</p>
-    </div>
+<section class="hero-parallax" id="contact-hero-parallax" data-parallax-speed="-0.3">
+  <div class="hero-parallax-bg" style="background-image: url('{{ url_for('static', filename='img/heroes/contact-hero.jpg') }}');"></div>
+  <div class="hero-photo-overlay"></div>
+  <div class="container hero-photo-content">
+    <span class="eyebrow">Contact</span>
+    <h1>Let's Talk About Your <span class="accent">Windows.</span></h1>
+    <p class="lead">Call, email, or send a free estimate request &mdash; whichever's easiest for you.</p>
   </div>
 </section>
 
