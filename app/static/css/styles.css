@@ -613,6 +613,22 @@ html.js-reveal .section-heading.in-view h2::after {
 
 .product-photo-tint.active { opacity: 0.9; }
 
+/* Clip the tint to just the window-treatment area of each category photo,
+   so surrounding walls/furniture keep their real color. */
+.product-card[data-category="shades"] .product-photo-tint {
+  clip-path: polygon(5.5% 25.5%, 83% 25.5%, 83% 49.5%, 5.5% 49.5%);
+}
+
+.product-card[data-category="curtains"] .product-photo-tint {
+  /* Coordinates are relative to the displayed 4:3 cover-crop, not the
+     original portrait photo. */
+  clip-path: polygon(7% 13%, 78% 13%, 78% 88%, 7% 88%);
+}
+
+.product-card[data-category="motorized"] .product-photo-tint {
+  clip-path: polygon(42% 0%, 100% 0%, 100% 30%, 42% 30%);
+}
+
 .product-photo-icon {
   position: absolute;
   bottom: 12px;
