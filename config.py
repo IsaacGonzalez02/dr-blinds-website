@@ -44,9 +44,8 @@ class Config:
         {"name": "Jana Morales", "role": "Orlando, FL Assistance", "phone": "(954) 470-4496"},
     ]
 
-    SMTP_HOST = os.environ.get("SMTP_HOST")
-    SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-    SMTP_USER = os.environ.get("SMTP_USER")
-    SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
-    SMTP_FROM = os.environ.get("SMTP_FROM")
+    RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+    RESEND_FROM_EMAIL = os.environ.get(
+        "RESEND_FROM_EMAIL", "Dr Blinds Decor & Services <notifications@drblindsdecorandservices.com>"
+    )
     OWNER_NOTIFY_EMAIL = os.environ.get("OWNER_NOTIFY_EMAIL")

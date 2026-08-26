@@ -1,32 +1,44 @@
-import smtplib
-from email.message import EmailMessage
+import json
+import urllib.request
 
 from flask import current_app
 
 
-def _smtp_configured():
+def _configured():
     cfg = current_app.config
-    return bool(cfg.get("SMTP_HOST") and cfg.get("SMTP_USER") and cfg.get("SMTP_PASSWORD") and cfg.get("SMTP_FROM"))
+    return bool(cfg.get("RESEND_API_KEY") and cfg.get("RESEND_FROM_EMAIL"))
 
 
 def _send(to_addr, subject, body):
     cfg = current_app.config
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    msg["From"] = cfg["SMTP_FROM"]
-    msg["To"] = to_addr
-    msg.set_content(body)
-    with smtplib.SMTP(cfg["SMTP_HOST"], cfg["SMTP_PORT"], timeout=10) as server:
-        server.starttls()
-        server.login(cfg["SMTP_USER"], cfg["SMTP_PASSWORD"])
-        server.send_message(msg)
+    payload = json.dumps(
+        {
+            "from": cfg["RESEND_FROM_EMAIL"],
+            "to": [to_addr],
+            "subject": subject,
+            "text": body,
+        }
+    ).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {cfg['RESEND_API_KEY']}",
+            "Content-Type": "application/json",
+            "User-Agent": "dr-blinds-website/1.0",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        if resp.status >= 300:
+            raise RuntimeError(f"Resend API returned status {resp.status}")
 
 
 def notify_owner_new_request(est):
-    if not _smtp_configured():
+    if not _configured():
         current_app.logger.info("Email not configured - skipping owner notification for request %s", est.id)
         return False
-    owner_email = current_app.config.get("OWNER_NOTIFY_EMAIL") or current_app.config.get("SMTP_FROM")
+    owner_email = current_app.config.get("OWNER_NOTIFY_EMAIL")
     if not owner_email:
         return False
     body = (
@@ -46,7 +58,7 @@ def notify_owner_new_request(est):
 
 
 def confirm_customer_request(est):
-    if not _smtp_configured() or not est.email:
+    if not _configured() or not est.email:
         return False
     body = (
         f"Hi {est.name},\n\n"
