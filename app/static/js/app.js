@@ -65,6 +65,49 @@ document.addEventListener("DOMContentLoaded", function () {
     revealTargets.forEach(function (el) { revealObserver.observe(el); });
   }
 
+  var countUpTargets = document.querySelectorAll(".count-up");
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (countUpTargets.length) {
+    var animateCountUp = function (el) {
+      var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+      if (prefersReducedMotion) {
+        el.textContent = target;
+        return;
+      }
+      var duration = 1200;
+      var start = null;
+      var step = function (timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          el.textContent = target;
+        }
+      };
+      window.requestAnimationFrame(step);
+    };
+
+    if ("IntersectionObserver" in window) {
+      var countUpObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateCountUp(entry.target);
+              countUpObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      countUpTargets.forEach(function (el) { countUpObserver.observe(el); });
+    } else {
+      countUpTargets.forEach(function (el) { el.textContent = el.getAttribute("data-count"); });
+    }
+  }
+
   var lightbox = document.getElementById("lightbox");
   var lightboxBody = document.getElementById("lightbox-body");
   var lightboxClose = document.getElementById("lightbox-close");
