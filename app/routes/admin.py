@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, Length
 
 from .. import db
 from ..models import STATUS_CHOICES, AdminUser, EstimateRequest
@@ -13,6 +13,12 @@ admin_bp = Blueprint("admin", __name__)
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
+
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField("Current Password", validators=[DataRequired()])
+    new_password = PasswordField("New Password", validators=[DataRequired(), Length(min=8)])
+    confirm_password = PasswordField("Confirm New Password", validators=[DataRequired()])
 
 
 @admin_bp.route("/login", methods=["GET", "POST"])
@@ -37,6 +43,23 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("admin.login"))
+
+
+@admin_bp.route("/account", methods=["GET", "POST"])
+@login_required
+def account():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if not current_user.check_password(form.current_password.data):
+            flash("Current password is incorrect.", "error")
+        elif form.new_password.data != form.confirm_password.data:
+            flash("New passwords don't match.", "error")
+        else:
+            current_user.set_password(form.new_password.data)
+            db.session.commit()
+            flash("Password updated.", "success")
+            return redirect(url_for("admin.requests_list"))
+    return render_template("admin/account.html", form=form)
 
 
 @admin_bp.route("/")
