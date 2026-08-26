@@ -601,6 +601,18 @@ html.js-reveal .section-heading.in-view h2::after {
 
 .product-card:hover .product-photo img { transform: scale(1.06); }
 
+.product-photo-tint {
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  opacity: 0;
+  mix-blend-mode: color;
+  transition: opacity 0.35s ease, background-color 0.35s ease;
+  pointer-events: none;
+}
+
+.product-photo-tint.active { opacity: 0.9; }
+
 .product-photo-icon {
   position: absolute;
   bottom: 12px;

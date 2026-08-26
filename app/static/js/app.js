@@ -218,6 +218,11 @@ document.addEventListener("DOMContentLoaded", function () {
       swatch.classList.add("selected");
       var label = card.querySelector(".product-swatch-label");
       if (label) label.textContent = swatch.getAttribute("data-color");
+      var tint = card.querySelector(".product-photo-tint");
+      if (tint) {
+        tint.style.backgroundColor = swatch.getAttribute("data-hex");
+        tint.classList.add("active");
+      }
     });
     swatch.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") {
