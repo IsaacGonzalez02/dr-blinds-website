@@ -458,6 +458,13 @@ p { line-height: 1.65; margin: 0 0 1em; color: var(--text-muted-on-light); }
   will-change: transform;
 }
 
+/* Gallery hero photo is a tall portrait shot (chandelier near the top) - on
+   wide desktop viewports "center" crops the chandelier out entirely, so pin
+   this one to the top of the image instead. */
+#gallery-hero-parallax .hero-parallax-bg {
+  background-position: center top;
+}
+
 .hero-photo-overlay {
   position: absolute;
   inset: 0;
