@@ -8,6 +8,30 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", updateHeaderScrolled, { passive: true });
   }
 
+  var parallaxBg = document.getElementById("products-hero-bg");
+  var parallaxSection = document.getElementById("products-hero-parallax");
+  var reducedMotionParallax = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (parallaxBg && parallaxSection && !reducedMotionParallax) {
+    var updateParallax = function () {
+      var rect = parallaxSection.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      parallaxBg.style.transform = "translateY(" + (rect.top * 0.35) + "px)";
+    };
+    var parallaxTicking = false;
+    var onParallaxScroll = function () {
+      if (!parallaxTicking) {
+        window.requestAnimationFrame(function () {
+          updateParallax();
+          parallaxTicking = false;
+        });
+        parallaxTicking = true;
+      }
+    };
+    updateParallax();
+    window.addEventListener("scroll", onParallaxScroll, { passive: true });
+    window.addEventListener("resize", onParallaxScroll);
+  }
+
   document.querySelectorAll(".btn").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       var rect = btn.getBoundingClientRect();

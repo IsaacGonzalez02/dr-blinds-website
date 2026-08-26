@@ -353,22 +353,71 @@ p { line-height: 1.65; margin: 0 0 1em; color: var(--text-muted-on-light); }
   margin-bottom: 18px;
 }
 
-.hero h1 {
+.hero h1, .hero-parallax h1 {
   font-size: clamp(2.1rem, 5vw, 3.4rem);
   color: var(--text-on-dark);
 }
 
-.hero h1 .accent {
+.hero h1 .accent, .hero-parallax h1 .accent {
   background: var(--gold-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.hero p.lead {
+.hero p.lead, .hero-parallax p.lead {
   color: var(--text-muted-on-dark);
   font-size: 1.1rem;
   max-width: 46ch;
+}
+
+/* ---------- Parallax Hero (inner pages) ---------- */
+
+.hero-parallax {
+  position: relative;
+  overflow: hidden;
+  min-height: 42vh;
+  display: flex;
+  align-items: flex-end;
+  color: var(--text-on-dark);
+}
+
+@media (min-width: 900px) {
+  .hero-parallax { min-height: 52vh; }
+}
+
+.hero-parallax-bg {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  right: 0;
+  bottom: -15%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+.hero-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 9, 6, 0.95) 0%,
+    rgba(10, 9, 6, 0.82) 25%,
+    rgba(10, 9, 6, 0.45) 55%,
+    rgba(10, 9, 6, 0.15) 80%
+  );
+}
+
+.hero-photo-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 48px 20px 44px;
+}
+
+@media (min-width: 900px) {
+  .hero-photo-content { padding: 64px 20px 56px; }
 }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }

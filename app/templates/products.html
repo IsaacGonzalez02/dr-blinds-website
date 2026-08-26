@@ -3,15 +3,15 @@
 {% block description %}Blinds, shades, curtains, and motorized window treatments installed by {{ business_name }}, serving all of Florida. Free estimates, always.{% endblock %}
 {% block content %}
 
-<section class="hero" style="padding-bottom:48px;">
-  <div class="container" style="grid-template-columns: 1fr;">
-    <div>
-      <span class="eyebrow">Products</span>
-      <h1>Blinds, Shades, Curtains &amp; <span class="accent">Motorized Control.</span></h1>
-      <p class="lead">Browse the styles we install, in colors that fit any setting. Every project starts with a free, in-home estimate — no online pricing, no guesswork.</p>
-      <div class="hero-actions">
-        <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
-      </div>
+<section class="hero-parallax" id="products-hero-parallax">
+  <div class="hero-parallax-bg" id="products-hero-bg" style="background-image: url('{{ url_for('static', filename='img/products/blinds.jpg') }}');"></div>
+  <div class="hero-photo-overlay"></div>
+  <div class="container hero-photo-content">
+    <span class="eyebrow">Products</span>
+    <h1>Blinds, Shades, Curtains &amp; <span class="accent">Motorized Control.</span></h1>
+    <p class="lead">Browse the styles we install, in colors that fit any setting. Every project starts with a free, in-home estimate — no online pricing, no guesswork.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Schedule Your Free Estimate</a>
     </div>
   </div>
 </section>
