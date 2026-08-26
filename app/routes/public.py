@@ -72,15 +72,15 @@ PRODUCTS = [
     {"category": "blinds", "name": "Vertical Blinds", "description": "Practical coverage for sliding doors and large windows.", "photo": "blinds-vertical.jpg", "tint_clip": None},
     {"category": "blinds", "name": "Mini Blinds", "description": "Slim aluminum slats for precise light control at a great value.", "photo": "blinds-mini.jpg", "tint_clip": None},
     {"category": "shades", "name": "Roller Shades", "description": "Clean, modern shades that roll up flush against the window.", "photo": "shades.jpg", "tint_clip": "polygon(5.5% 25.5%, 83% 25.5%, 83% 49.5%, 5.5% 49.5%)"},
-    {"category": "shades", "name": "Cellular (Honeycomb) Shades", "description": "Energy-efficient shades that trap air for better insulation.", "photo": "shades-cellular.jpg", "tint_clip": "inset(0% 18% 8% 15%)"},
-    {"category": "shades", "name": "Roman Shades", "description": "Soft fabric folds that add texture and warmth to a room.", "photo": "shades-roman.jpg", "tint_clip": "inset(22% 5% 34% 9%)"},
-    {"category": "shades", "name": "Solar Shades", "description": "Block UV and glare while preserving your outdoor view.", "photo": "shades-solar.jpg", "tint_clip": "inset(24% 0% 4% 0%)"},
+    {"category": "shades", "name": "Cellular (Honeycomb) Shades", "description": "Energy-efficient shades that trap air for better insulation.", "photo": "shades-cellular.jpg", "tint_clip": "inset(0% 14% 3% 7%)"},
+    {"category": "shades", "name": "Roman Shades", "description": "Soft fabric folds that add texture and warmth to a room.", "photo": "shades-roman.jpg", "tint_clip": "inset(23% 7% 53% 10%)"},
+    {"category": "shades", "name": "Solar Shades", "description": "Block UV and glare while preserving your outdoor view.", "photo": "shades-solar.jpg", "tint_clip": "inset(34% 0% 4% 0%)"},
     {"category": "curtains", "name": "Sheer Curtains", "description": "Light, airy fabric that softens a room while letting daylight through.", "photo": "curtains.jpg", "tint_clip": "polygon(7% 13%, 78% 13%, 78% 88%, 7% 88%)"},
-    {"category": "curtains", "name": "Blackout Curtains", "description": "Heavy fabric panels for total light and privacy control — perfect for bedrooms.", "photo": "curtains-blackout.jpg", "tint_clip": "inset(0% 0% 10% 0%)"},
+    {"category": "curtains", "name": "Blackout Curtains", "description": "Heavy fabric panels for total light and privacy control — perfect for bedrooms.", "photo": "curtains-blackout.jpg", "tint_clip": "inset(0% 0% 10% 20%)"},
     {"category": "curtains", "name": "Drapery Panels", "description": "Floor-length panels that add a tailored, elevated finish to any space.", "photo": "curtains-drapery.jpg", "tint_clip": "inset(15% 0% 0% 40%)"},
     {"category": "motorized", "name": "Motorized Roller Shades", "description": "Raise and lower your shades with a remote or app — no cords required.", "photo": "motorized.jpg", "tint_clip": "polygon(42% 0%, 100% 0%, 100% 30%, 42% 30%)"},
     {"category": "motorized", "name": "Motorized Cellular Shades", "description": "Smart insulating shades you can schedule and control from your phone.", "photo": "motorized-cellular.jpg", "tint_clip": None},
-    {"category": "motorized", "name": "Smart Blinds", "description": "App and voice-control-ready blinds for a fully automated home.", "photo": "motorized-smart.jpg", "tint_clip": "inset(8% 10% 15% 15%)"},
+    {"category": "motorized", "name": "Smart Blinds", "description": "App and voice-control-ready blinds for a fully automated home.", "photo": "motorized-smart.jpg", "tint_clip": "inset(8% 12% 18% 15%)"},
 ]
 
 
