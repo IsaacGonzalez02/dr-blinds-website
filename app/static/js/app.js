@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   var filterButtons = document.querySelectorAll(".gallery-filter");
+  var productCards = document.querySelectorAll(".product-card");
   if (filterButtons.length) {
     filterButtons.forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -193,7 +194,36 @@ document.addEventListener("DOMContentLoaded", function () {
             item.classList.add("gallery-item-hidden");
           }
         });
+        productCards.forEach(function (card) {
+          var matches = filter === "all" || card.getAttribute("data-category") === filter;
+          card.classList.remove("gallery-item-enter");
+          if (matches) {
+            card.classList.remove("gallery-item-hidden");
+            void card.offsetWidth;
+            card.classList.add("gallery-item-enter");
+          } else {
+            card.classList.add("gallery-item-hidden");
+          }
+        });
       });
     });
   }
+
+  var swatches = document.querySelectorAll(".product-swatch");
+  swatches.forEach(function (swatch) {
+    swatch.addEventListener("click", function () {
+      var card = swatch.closest(".product-card");
+      if (!card) return;
+      card.querySelectorAll(".product-swatch").forEach(function (s) { s.classList.remove("selected"); });
+      swatch.classList.add("selected");
+      var label = card.querySelector(".product-swatch-label");
+      if (label) label.textContent = swatch.getAttribute("data-color");
+    });
+    swatch.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        swatch.click();
+      }
+    });
+  });
 });

@@ -55,6 +55,35 @@ def _gallery_items():
     return items
 
 
+PRODUCT_COLORS = [
+    {"name": "Pure White", "hex": "#f7f5f0"},
+    {"name": "Ivory", "hex": "#ede4d1"},
+    {"name": "Natural Linen", "hex": "#d8cbb3"},
+    {"name": "Warm Greige", "hex": "#b7a891"},
+    {"name": "Taupe", "hex": "#9c8b76"},
+    {"name": "Espresso", "hex": "#4a3324"},
+    {"name": "Charcoal", "hex": "#3f3b36"},
+    {"name": "Navy", "hex": "#2b3b52"},
+]
+
+PRODUCTS = [
+    {"category": "blinds", "name": "Wood Blinds", "description": "Warm, natural wood slats for a classic, upscale look in any room."},
+    {"category": "blinds", "name": "Faux Wood Blinds", "description": "Durable, moisture-resistant slats that mimic real wood — ideal for kitchens and baths."},
+    {"category": "blinds", "name": "Vertical Blinds", "description": "Practical coverage for sliding doors and large windows."},
+    {"category": "blinds", "name": "Mini Blinds", "description": "Slim aluminum slats for precise light control at a great value."},
+    {"category": "shades", "name": "Roller Shades", "description": "Clean, modern shades that roll up flush against the window."},
+    {"category": "shades", "name": "Cellular (Honeycomb) Shades", "description": "Energy-efficient shades that trap air for better insulation."},
+    {"category": "shades", "name": "Roman Shades", "description": "Soft fabric folds that add texture and warmth to a room."},
+    {"category": "shades", "name": "Solar Shades", "description": "Block UV and glare while preserving your outdoor view."},
+    {"category": "curtains", "name": "Sheer Curtains", "description": "Light, airy fabric that softens a room while letting daylight through."},
+    {"category": "curtains", "name": "Blackout Curtains", "description": "Heavy fabric panels for total light and privacy control — perfect for bedrooms."},
+    {"category": "curtains", "name": "Drapery Panels", "description": "Floor-length panels that add a tailored, elevated finish to any space."},
+    {"category": "motorized", "name": "Motorized Roller Shades", "description": "Raise and lower your shades with a remote or app — no cords required."},
+    {"category": "motorized", "name": "Motorized Cellular Shades", "description": "Smart insulating shades you can schedule and control from your phone."},
+    {"category": "motorized", "name": "Smart Blinds", "description": "App and voice-control-ready blinds for a fully automated home."},
+]
+
+
 class EstimateRequestForm(FlaskForm):
     name = StringField("Full Name", validators=[DataRequired(), Length(max=255)])
     phone = StringField("Phone Number", validators=[DataRequired(), Length(max=50)])
@@ -94,6 +123,21 @@ def contact():
 @public_bp.route("/gallery")
 def gallery():
     return render_template("gallery.html", items=_gallery_items())
+
+
+CATEGORY_PHOTOS = {
+    "blinds": "blinds.jpg",
+    "shades": "shades.jpg",
+    "curtains": "curtains.jpg",
+    "motorized": "motorized.jpg",
+}
+
+
+@public_bp.route("/products")
+def products():
+    return render_template(
+        "products.html", products=PRODUCTS, colors=PRODUCT_COLORS, category_photos=CATEGORY_PHOTOS
+    )
 
 
 @public_bp.route("/request-estimate", methods=["GET", "POST"])
