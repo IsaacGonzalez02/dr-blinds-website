@@ -190,7 +190,12 @@ p { line-height: 1.65; margin: 0 0 1em; color: var(--text-muted-on-light); }
 
 .site-header.scrolled .container { height: 58px; }
 
-.site-header.scrolled { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); }
+.site-header.scrolled {
+  background: rgba(13, 13, 13, 0.7);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
 
 .brand {
   display: flex;
@@ -694,7 +699,9 @@ html.js-reveal .section-heading.in-view h2::after {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(6, 5, 3, 0.92);
+  background: rgba(6, 5, 3, 0.6);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
   display: none;
   align-items: center;
   justify-content: center;
@@ -834,7 +841,9 @@ input[type="file"] { padding: 10px; background: var(--surface-light); border: 1.
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 50;
-  background: var(--bg-dark);
+  background: rgba(13, 13, 13, 0.78);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-top: 1px solid var(--border-on-dark);
   display: flex;
   gap: 10px;
