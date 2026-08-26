@@ -246,9 +246,14 @@ p { line-height: 1.65; margin: 0 0 1em; color: var(--text-muted-on-light); }
   color: var(--text-on-dark);
 }
 
-.brand-logo { width: 40px; height: 40px; flex-shrink: 0; transition: width 0.25s ease, height 0.25s ease; }
+.brand-logo { height: 32px; width: auto; flex-shrink: 0; transition: height 0.25s ease; }
 
-.site-header.scrolled .brand-logo { width: 32px; height: 32px; }
+.site-header.scrolled .brand-logo { height: 27px; }
+
+@media (min-width: 900px) {
+  .brand-logo { height: 40px; }
+  .site-header.scrolled .brand-logo { height: 32px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .site-header, .site-header .container, .brand-logo { transition: none; }

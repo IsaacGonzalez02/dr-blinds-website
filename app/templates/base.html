@@ -13,19 +13,7 @@
   <header class="site-header">
     <div class="container">
       <a href="{{ url_for('public.home') }}" class="brand">
-        <svg class="brand-logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#f2c14e"/>
-              <stop offset="1" stop-color="#b9832f"/>
-            </linearGradient>
-          </defs>
-          <path d="M10 46 L10 18 L22 10 L22 46 Z" fill="url(#gold)"/>
-          <path d="M14 42 h4 M14 34 h4 M14 26 h4 M18 20 h0" stroke="#0d0d0d" stroke-width="1.6" opacity="0.4"/>
-          <path d="M28 46 L28 26 L52 16 L52 46 Z" fill="url(#gold)" opacity="0.92"/>
-          <path d="M31 44 L49 36 M31 40 L49 32 M31 36 L49 28 M31 32 L49 24" stroke="#0d0d0d" stroke-width="1.4" opacity="0.35"/>
-          <path d="M6 48 Q32 40 58 48" stroke="url(#gold)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
-        </svg>
+        <img class="brand-logo" src="{{ url_for('static', filename='img/logo-transparent.png') }}" alt="Dr Blinds Decor &amp; Services LLC logo">
         <span class="brand-name">Dr. Blinds<em>Decor &amp; Services LLC</em></span>
       </a>
 
