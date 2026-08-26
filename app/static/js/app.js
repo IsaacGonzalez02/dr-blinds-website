@@ -8,6 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", updateHeaderScrolled, { passive: true });
   }
 
+  document.querySelectorAll(".btn").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      var rect = btn.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
+      var ripple = document.createElement("span");
+      ripple.className = "btn-ripple";
+      ripple.style.width = ripple.style.height = size + "px";
+      ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+      ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+      btn.appendChild(ripple);
+      ripple.addEventListener("animationend", function () { ripple.remove(); });
+    });
+  });
+
   var toggle = document.getElementById("nav-toggle");
   var menu = document.getElementById("mobile-nav");
   if (toggle && menu) {
