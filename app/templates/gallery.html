@@ -17,6 +17,13 @@
 <section class="section section-white" style="padding-top:40px;">
   <div class="container">
     {% if items %}
+      {% set photo_count = items | selectattr('type', 'equalto', 'image') | list | length %}
+      {% set video_count = items | selectattr('type', 'equalto', 'video') | list | length %}
+      <div class="gallery-filters">
+        <button type="button" class="gallery-filter active" data-filter="all">All ({{ items|length }})</button>
+        <button type="button" class="gallery-filter" data-filter="image">Photos ({{ photo_count }})</button>
+        <button type="button" class="gallery-filter" data-filter="video">Videos ({{ video_count }})</button>
+      </div>
       <div class="gallery-grid">
         {% for item in items %}
           <button type="button" class="gallery-item" data-type="{{ item.type }}" data-src="{{ url_for('static', filename='gallery/' ~ item.filename) }}" data-title="{{ item.title }}" aria-label="View {{ item.title }}">

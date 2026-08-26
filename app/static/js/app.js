@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var siteHeader = document.querySelector(".site-header");
+  if (siteHeader) {
+    var updateHeaderScrolled = function () {
+      siteHeader.classList.toggle("scrolled", window.scrollY > 40);
+    };
+    updateHeaderScrolled();
+    window.addEventListener("scroll", updateHeaderScrolled, { passive: true });
+  }
+
   var toggle = document.getElementById("nav-toggle");
   var menu = document.getElementById("mobile-nav");
   if (toggle && menu) {
@@ -89,4 +98,26 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeLightbox();
   });
+
+  var filterButtons = document.querySelectorAll(".gallery-filter");
+  if (filterButtons.length) {
+    filterButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var filter = btn.getAttribute("data-filter");
+        filterButtons.forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        galleryItems.forEach(function (item) {
+          var matches = filter === "all" || item.getAttribute("data-type") === filter;
+          item.classList.remove("gallery-item-enter");
+          if (matches) {
+            item.classList.remove("gallery-item-hidden");
+            void item.offsetWidth;
+            item.classList.add("gallery-item-enter");
+          } else {
+            item.classList.add("gallery-item-hidden");
+          }
+        });
+      });
+    });
+  }
 });
