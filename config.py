@@ -7,9 +7,10 @@ load_dotenv(os.path.join(basedir, ".env"))
 
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-insecure-change-me")
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", f"sqlite:///{os.path.join(basedir, 'instance', 'dr_blinds.db')}"
-    )
+    _database_url = os.environ.get("DATABASE_URL")
+    if _database_url and _database_url.startswith("postgres://"):
+        _database_url = _database_url.replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DATABASE_URI = _database_url or f"sqlite:///{os.path.join(basedir, 'instance', 'dr_blinds.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true"
