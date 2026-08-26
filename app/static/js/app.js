@@ -233,6 +233,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  document.querySelectorAll(".btn-gold, .btn-outline-light, .btn-outline-dark").forEach(function (btn) {
+    var text = btn.textContent.trim();
+    if (!text || btn.querySelector(".btn-roll")) return;
+    btn.textContent = "";
+    var roll = document.createElement("span");
+    roll.className = "btn-roll";
+    roll.setAttribute("data-label", text);
+    var inner = document.createElement("span");
+    inner.className = "btn-roll-inner";
+    inner.textContent = text;
+    roll.appendChild(inner);
+    btn.appendChild(roll);
+  });
+
   var swatches = document.querySelectorAll(".product-swatch");
   swatches.forEach(function (swatch) {
     swatch.addEventListener("click", function () {

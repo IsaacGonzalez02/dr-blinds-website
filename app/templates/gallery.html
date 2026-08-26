@@ -35,6 +35,12 @@
             {% else %}
               <img src="{{ url_for('static', filename='gallery/' ~ item.filename) }}" alt="{{ item.title }}" loading="lazy">
             {% endif %}
+            <span class="gallery-view-badge" aria-hidden="true">
+              <span class="gallery-view-badge-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M7 7h10v10" stroke="#1c1400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="gallery-view-badge-text">View</span>
+            </span>
           </button>
         {% endfor %}
       </div>
