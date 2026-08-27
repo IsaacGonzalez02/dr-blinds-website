@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics | {{ business_name }}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body style="padding-bottom:0;">
+<div class="admin-shell">
+  <div class="admin-topbar">
+    <div class="container">
+      <span class="brand">
+        <svg class="brand-logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs><linearGradient id="gold3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c14e"/><stop offset="1" stop-color="#b9832f"/></linearGradient></defs>
+          <path d="M10 46 L10 18 L22 10 L22 46 Z" fill="url(#gold3)"/>
+          <path d="M28 46 L28 26 L52 16 L52 46 Z" fill="url(#gold3)" opacity="0.92"/>
+        </svg>
+        <span class="brand-name">Dr. Blinds<em>Owner Dashboard</em></span>
+      </span>
+      <div style="display:flex; gap:16px; align-items:center;">
+        <a href="{{ url_for('admin.requests_list') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">Requests</a>
+        <a href="{{ url_for('public.home') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">View Site</a>
+        <a href="{{ url_for('admin.account') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">Account</a>
+        <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light" style="padding:10px 18px; min-height:auto;">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:30px; padding-bottom:60px;">
+    <h1 style="font-size:1.6rem;">Analytics</h1>
+    <p style="color:var(--text-muted-on-light);">Private and self-hosted &mdash; this data never leaves your own site. No IP addresses or personal info are tracked, just anonymous visit counts.</p>
+
+    <div class="status-filters">
+      <a href="{{ url_for('admin.analytics', days=7) }}" class="{{ 'active' if days == 7 }}">Last 7 Days</a>
+      <a href="{{ url_for('admin.analytics', days=30) }}" class="{{ 'active' if days == 30 }}">Last 30 Days</a>
+      <a href="{{ url_for('admin.analytics', days=90) }}" class="{{ 'active' if days == 90 }}">Last 90 Days</a>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:24px;">
+      <div class="card" style="text-align:center; padding:28px;">
+        <div style="font-size:2.4rem; font-weight:700; color:var(--gold-1);">{{ total_views }}</div>
+        <div style="color:var(--text-muted-on-light); margin-top:6px;">Page Views</div>
+      </div>
+      <div class="card" style="text-align:center; padding:28px;">
+        <div style="font-size:2.4rem; font-weight:700; color:var(--gold-1);">{{ unique_visitors }}</div>
+        <div style="color:var(--text-muted-on-light); margin-top:6px;">Unique Visitors</div>
+      </div>
+      <div class="card" style="text-align:center; padding:28px;">
+        <div style="font-size:2.4rem; font-weight:700; color:var(--gold-1);">
+          {% if avg_duration >= 60 %}{{ (avg_duration // 60)|int }}m {{ (avg_duration % 60)|int }}s{% else %}{{ avg_duration }}s{% endif %}
+        </div>
+        <div style="color:var(--text-muted-on-light); margin-top:6px;">Avg. Time on Site</div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:24px; align-items:start;">
+      <div class="card">
+        <h3 style="margin-bottom:16px;">Top Pages</h3>
+        {% if top_pages %}
+          {% for path, views in top_pages %}
+            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border-on-light);">
+              <span style="font-family:monospace; font-size:0.9rem;">{{ path }}</span>
+              <span style="color:var(--text-muted-on-light); font-weight:600;">{{ views }}</span>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p style="color:var(--text-muted-on-light);">No visits recorded yet in this window.</p>
+        {% endif %}
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:16px;">How Visitors Found You</h3>
+        {% set total_sources = traffic_sources.values() | sum %}
+        {% if total_sources %}
+          {% for label, count in traffic_sources.items() %}
+            {% if count > 0 %}
+              <div style="margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                  <span>{{ label }}</span>
+                  <span style="color:var(--text-muted-on-light); font-weight:600;">{{ count }} ({{ ((count / total_sources) * 100)|round|int }}%)</span>
+                </div>
+                <div style="background:var(--border-on-light); border-radius:6px; height:8px; overflow:hidden;">
+                  <div style="background:var(--gold-gradient); height:100%; width:{{ (count / total_sources) * 100 }}%;"></div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          <p style="color:var(--text-muted-on-light); font-size:0.85rem; margin-top:12px;">"QR Code" counts scans of the QR on your business card and flyer. "Direct" means typed the URL or used a bookmark.</p>
+        {% else %}
+          <p style="color:var(--text-muted-on-light);">No visits recorded yet in this window.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

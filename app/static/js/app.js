@@ -1,3 +1,29 @@
+(function () {
+  try {
+    var pvId = window.__pvId;
+    if (!pvId) return;
+    var startTime = Date.now();
+    var sent = false;
+    var sendDuration = function () {
+      if (sent) return;
+      sent = true;
+      var seconds = Math.round((Date.now() - startTime) / 1000);
+      var payload = JSON.stringify({ id: pvId, seconds: seconds });
+      try {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon("/api/track-duration", new Blob([payload], { type: "application/json" }));
+        } else {
+          fetch("/api/track-duration", { method: "POST", body: payload, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(function () {});
+        }
+      } catch (e) {}
+    };
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") sendDuration();
+    });
+    window.addEventListener("pagehide", sendDuration);
+  } catch (e) {}
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   var siteHeader = document.querySelector(".site-header");
   if (siteHeader) {

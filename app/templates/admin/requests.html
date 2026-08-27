@@ -20,6 +20,7 @@
         <span class="brand-name">Dr. Blinds<em>Owner Dashboard</em></span>
       </span>
       <div style="display:flex; gap:16px; align-items:center;">
+        <a href="{{ url_for('admin.analytics') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">Analytics</a>
         <a href="{{ url_for('public.home') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">View Site</a>
         <a href="{{ url_for('admin.account') }}" style="color:var(--text-muted-on-dark); font-size:0.9rem;">Account</a>
         <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light" style="padding:10px 18px; min-height:auto;">Log Out</a>

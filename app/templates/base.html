@@ -103,6 +103,7 @@
     <a href="{{ url_for('public.request_estimate') }}" class="btn btn-gold">Free Estimate</a>
   </div>
 
+  {% if pageview_id %}<script>window.__pvId = {{ pageview_id }};</script>{% endif %}
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

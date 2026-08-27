@@ -38,3 +38,17 @@ class EstimateRequest(db.Model):
     notes = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class PageView(db.Model):
+    """A single anonymous page visit. session_id is a random id stored in a
+    first-party cookie - no IP address, user agent, or other identifying
+    data is stored anywhere."""
+
+    id = db.Column(db.Integer, primary_key=True)
+    path = db.Column(db.String(255), nullable=False)
+    session_id = db.Column(db.String(36), nullable=False, index=True)
+    duration_seconds = db.Column(db.Integer, nullable=True)
+    utm_source = db.Column(db.String(50), nullable=True)
+    referrer_host = db.Column(db.String(255), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)

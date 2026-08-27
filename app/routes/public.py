@@ -1,16 +1,16 @@
 import os
 from datetime import datetime
 
-from flask import Blueprint, current_app, flash, redirect, render_template, url_for
+from flask import Blueprint, current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from werkzeug.utils import secure_filename
 from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Optional
 
-from .. import db
+from .. import csrf, db
 from ..email import confirm_customer_request, notify_owner_new_request
-from ..models import EstimateRequest
+from ..models import EstimateRequest, PageView
 
 public_bp = Blueprint("public", __name__)
 
@@ -174,3 +174,21 @@ def request_estimate():
 @public_bp.route("/request-estimate/confirmation")
 def request_confirmation():
     return render_template("request_confirmation.html")
+
+
+@public_bp.route("/api/track-duration", methods=["POST"])
+@csrf.exempt
+def track_duration():
+    try:
+        data = request.get_json(silent=True) or {}
+        pv_id = data.get("id")
+        seconds = data.get("seconds")
+        if pv_id and isinstance(seconds, (int, float)) and 0 <= seconds < 3600:
+            pv = PageView.query.get(int(pv_id))
+            if pv:
+                pv.duration_seconds = int(seconds)
+                db.session.commit()
+    except Exception:
+        db.session.rollback()
+        current_app.logger.exception("Analytics: failed to record page duration (non-fatal)")
+    return jsonify(ok=True)
