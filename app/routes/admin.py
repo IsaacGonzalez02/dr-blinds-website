@@ -98,7 +98,7 @@ def update_request(request_id):
     return redirect(url_for("admin.requests_list"))
 
 
-@admin_bp.route("/analytics")
+@admin_bp.route("/analytics/classic")
 @login_required
 def analytics():
     days = request.args.get("days", "30")

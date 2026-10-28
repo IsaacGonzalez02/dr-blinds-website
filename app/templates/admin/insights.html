@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Analytics | {{ business_name }}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/insights.css') }}">
+</head>
+<body class="ins">
+<div class="bg"></div>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c14e"/><stop offset="1" stop-color="#b9832f"/></linearGradient></defs>
+      <path d="M10 46 L10 18 L22 10 L22 46 Z" fill="url(#g)"/><path d="M28 46 L28 26 L52 16 L52 46 Z" fill="url(#g)" opacity="0.92"/></svg>
+    <div><b>Analytics</b><em>Dr. Blinds · Owner Dashboard</em></div>
+  </div>
+  <div class="live"><i></i><span id="liveN">0</span>&nbsp;on site now</div>
+  <nav class="seg" id="seg">
+    <button data-r="today">Today</button><button data-r="24h">24h</button><button data-r="7d" class="on">7 days</button>
+    <button data-r="30d">30 days</button><button data-r="90d">90 days</button><button data-r="all">All</button>
+  </nav>
+  <div class="navlinks">
+    <span id="upd">Loading…</span>
+    <a href="{{ url_for('admin.requests_list') }}">Requests</a>
+    <a href="{{ url_for('public.home') }}">View Site</a>
+    <a href="{{ url_for('admin.account') }}">Account</a>
+    <a href="{{ url_for('admin.logout') }}" class="out">Log Out</a>
+  </div>
+</header>
+<p class="note">Private and self-hosted. No cookies, no IP addresses. Your own visits aren't counted while you're logged in. · <a href="{{ url_for('admin.analytics') }}">Classic view (older data)</a></p>
+
+<main class="grid">
+  <section class="kpis" id="kpis"></section>
+
+  <section class="card span2 tall"><div class="h"><h2>Traffic</h2><div class="legend"><span class="l1">Visitors</span><span class="l2">Page views</span><span class="l3">Calls &amp; requests</span></div></div><div class="cv"><canvas id="cTraffic"></canvas></div></section>
+  <section class="card"><div class="h"><h2>From visit to estimate</h2><small id="calledN"></small></div><div id="funnel" class="funnel"></div></section>
+
+  <section class="card feedcard"><div class="h"><h2>Live activity</h2><small id="feedN"></small></div><ul id="feed" class="feed"></ul></section>
+  <section class="card"><div class="h"><h2>Pages visitors reached</h2><small>% of visits that opened each page</small></div><div id="reach" class="bars"></div></section>
+  <section class="card"><div class="h"><h2>Time on site</h2><small>per visit, only while the page is open</small></div><div class="cv sm"><canvas id="cTime"></canvas></div></section>
+
+  <section class="card"><div class="h"><h2>Estimate form</h2><small>every step</small></div><div id="form"></div></section>
+  <section class="card"><div class="h"><h2>Calls, texts &amp; social</h2></div><div id="contact"></div></section>
+  <section class="card"><div class="h"><h2>Gallery &amp; clicks</h2></div><div id="clicks"></div></section>
+
+  <section class="card span2"><div class="h"><h2>Where visitors come from</h2><small>visits · and how many called or requested an estimate</small></div><div id="sources" class="table"></div></section>
+  <section class="card"><div class="h"><h2>Scroll depth</h2><small>how far down each page</small></div><div class="cv sm"><canvas id="cDepth"></canvas></div></section>
+
+  <section class="card"><div class="h"><h2>Top pages</h2></div><div id="pages" class="table"></div></section>
+  <section class="card"><div class="h"><h2>Devices</h2></div><div class="donut"><canvas id="cDevice"></canvas><div id="devLeg" class="dleg"></div></div></section>
+  <section class="card"><div class="h"><h2>New vs returning</h2></div><div class="donut"><canvas id="cNew"></canvas><div id="newLeg" class="dleg"></div></div></section>
+
+  <section class="card"><div class="h"><h2>Browsers &amp; systems</h2></div><div id="tech"></div></section>
+  <section class="card span2"><div class="h"><h2>Locations</h2><small>from the visitor's time zone</small></div><div id="geo"></div></section>
+  <section class="card full"><div class="h"><h2>When people visit</h2><small>page views by day and hour (Florida time)</small></div><div id="heat" class="heat"></div></section>
+</main>
+<footer class="foot">Anonymous, cookie-free analytics · no IP addresses stored · bots filtered out</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>window.STATS_URL = "{{ url_for('insights.stats') }}";</script>
+<script src="{{ url_for('static', filename='js/insights-dash.js') }}"></script>
+</body>
+</html>

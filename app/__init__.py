@@ -38,6 +38,10 @@ def create_app():
     app.register_blueprint(public_bp)
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
+    from .insights import insights_bp
+
+    app.register_blueprint(insights_bp)
+
     from .analytics import register_analytics
 
     register_analytics(app)

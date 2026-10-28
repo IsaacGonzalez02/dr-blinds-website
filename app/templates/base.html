@@ -105,5 +105,6 @@
 
   {% if pageview_id %}<script>window.__pvId = {{ pageview_id }};</script>{% endif %}
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/insights.js') }}" defer></script>
 </body>
 </html>
