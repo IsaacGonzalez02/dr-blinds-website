@@ -122,11 +122,15 @@ def collect():
         ip = (request.headers.get("X-Forwarded-For") or request.remote_addr or "").split(",")[0].strip()
         origin = request.headers.get("Origin")
         same_site = not origin or urlparse(origin).hostname == request.host.split(":")[0]
-        if current_user.is_authenticated or not same_site or BOT.search(ua) or not rate_ok(hashlib.sha256(ip.encode()).hexdigest(), 400, 600):
+        owner = current_user.is_authenticated or request.cookies.get(OWNER_COOKIE)
+        if owner or not same_site or BOT.search(ua) or not rate_ok(hashlib.sha256(ip.encode()).hexdigest(), 400, 600):
             return make_response("", 204)
         body = json.loads(request.get_data(as_text=True)[:60000] or "{}")
         ctx, events = body.get("c") or {}, (body.get("e") or [])[:60]
         device, br, os_ = parse_ua(ua)
+        # The site's own first-party visitor cookie (set by the classic logger) outlives Safari's 7-day limit on
+        # script storage, so prefer it: returning visitors stay "returning", and old and new history line up.
+        vid = clip(request.cookies.get("dbv_id"), 24) or clip(ctx.get("vid"), 24)
         country, region = place(clip(ctx.get("tz"), 48))
         src = source(clip(ctx.get("ref"), 300), clip(ctx.get("utm"), 120), br)
         now = datetime.now(timezone.utc).replace(tzinfo=None)
@@ -136,7 +140,7 @@ def collect():
                 continue
             ago = min(max(float(ev.get("a") or 0), 0), 86400 * 7)  # seconds since it happened (events queued while offline)
             val = ev.get("v")
-            rows.append(InsightEvent(ts=now - timedelta(seconds=ago), vid=clip(ctx.get("vid"), 24), sid=clip(ctx.get("sid"), 24), kind=ev["k"],
+            rows.append(InsightEvent(ts=now - timedelta(seconds=ago), vid=vid, sid=clip(ctx.get("sid"), 24), kind=ev["k"],
                                      path=clip(ev.get("p") or ctx.get("p"), 200), label=clip(ev.get("l"), 200),
                                      value=float(val) if isinstance(val, (int, float)) else None, src=src, device=device, browser=br, os=os_,
                                      country=country, region=region, lang=clip(ctx.get("lang"), 12), new=bool(ctx.get("new"))))
@@ -150,10 +154,16 @@ def collect():
 
 
 # ---------------------------------------------------------------- dashboard
+OWNER_COOKIE = "dbi_owner"
+
+
 @insights_bp.route("/admin/analytics")
 @login_required
 def dashboard():
-    return render_template("admin/insights.html")
+    # Remember this device as the owner's for 2 years, so its visits are skipped even when logged out.
+    resp = make_response(render_template("admin/insights.html"))
+    resp.set_cookie(OWNER_COOKIE, "1", max_age=60 * 60 * 24 * 730, httponly=True, samesite="Lax", secure=request.is_secure)
+    return resp
 
 
 RANGES = {"24h": 1, "7d": 7, "30d": 30, "90d": 90, "all": 3650}
@@ -309,7 +319,7 @@ def stats():
 
 
 # ---------------------------------------------------------------- one-time import of the classic page views
-IMPORTED = "(classic)"  # label on imported page views, so the import knows it already ran
+IMPORTED = "(classic v2)"  # label on imported page views, so the import knows it already ran
 
 
 def import_classic():
@@ -323,8 +333,12 @@ def import_classic():
 
     if InsightEvent.query.filter_by(kind="view", label=IMPORTED).first():
         return 0
-    first_new = db.session.query(db.func.min(InsightEvent.ts)).scalar()
-    q = PageView.query
+    # Undo the first import (it also copied bot hits). Imported rows are the only ones with no device at all.
+    InsightEvent.query.filter_by(device="Unknown", browser="Unknown", os="Unknown").delete()
+    db.session.commit()
+    first_new = db.session.query(db.func.min(InsightEvent.ts)).filter(InsightEvent.device != "Unknown").scalar()
+    # Bots don't run JavaScript, so they never report time on page: keep only page views with a recorded time.
+    q = PageView.query.filter(PageView.duration_seconds.isnot(None))
     if first_new:
         q = q.filter(PageView.created_at < first_new)
     rows, last, seen = [], {}, set()

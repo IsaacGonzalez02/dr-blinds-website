@@ -107,7 +107,10 @@
     });
 
     // ---- send: right away for the page view, then every 10s, and when the page is hidden/closed
-    track("view", document.title.slice(0, 120));
+    // A page the browser pre-loaded in the background isn't a visit until someone actually opens it
+    function countView() { track("view", document.title.slice(0, 120)); flush(); }
+    if (document.prerendering) document.addEventListener("prerenderingchange", countView, { once: true });
+    else track("view", document.title.slice(0, 120));
     if (/\/request-estimate\/confirmation/.test(path)) track("form_submit");
     var bad = [].slice.call(document.querySelectorAll(".field-errors")).map(function (ul) {
       var f = ul.parentNode && ul.parentNode.querySelector("input, textarea, select");
