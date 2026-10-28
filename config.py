@@ -10,6 +10,10 @@ class Config:
     _database_url = os.environ.get("DATABASE_URL")
     if _database_url and _database_url.startswith("postgres://"):
         _database_url = _database_url.replace("postgres://", "postgresql://", 1)
+    if _database_url and _database_url.startswith("postgresql://"):
+        # Name the driver explicitly: SQLAlchemy 2.1 defaults a bare postgresql:// URL to psycopg v3,
+        # but this site installs psycopg2-binary.
+        _database_url = _database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
     SQLALCHEMY_DATABASE_URI = _database_url or f"sqlite:///{os.path.join(basedir, 'instance', 'dr_blinds.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
