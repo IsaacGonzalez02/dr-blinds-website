@@ -253,7 +253,8 @@ def stats():
     def by_visitor(attr, n=8):
         g = defaultdict(set)
         for r in views:
-            g[getattr(r, attr)].add(r.vid)
+            if getattr(r, attr) not in (None, "Unknown"):  # imported classic visits have no device/location
+                g[getattr(r, attr)].add(r.vid)
         return [{"label": k or "Unknown", "n": len(v)} for k, v in sorted(g.items(), key=lambda kv: -len(kv[1]))[:n]]
 
     src_sess, src_act = Counter(), Counter()
@@ -305,3 +306,46 @@ def stats():
         "feed": [{"ts": r.ts.replace(tzinfo=timezone.utc).isoformat(), "kind": r.kind, "path": r.path, "label": r.label, "region": r.region,
                   "device": r.device, "os": r.os, "src": r.src} for r in feed],
     })
+
+
+# ---------------------------------------------------------------- one-time import of the classic page views
+IMPORTED = "(classic)"  # label on imported page views, so the import knows it already ran
+
+
+def import_classic():
+    """Copy the older PageView history into the new analytics, once.
+
+    Only visits from before the new tracker's first event are copied (the classic logger keeps running, so later
+    visits would otherwise be counted twice). The old data has no device, browser or location, so those show as
+    Unknown; visits are rebuilt from each visitor's cookie id with the usual 30-minute gap.
+    """
+    from .models import PageView
+
+    if InsightEvent.query.filter_by(kind="view", label=IMPORTED).first():
+        return 0
+    first_new = db.session.query(db.func.min(InsightEvent.ts)).scalar()
+    q = PageView.query
+    if first_new:
+        q = q.filter(PageView.created_at < first_new)
+    rows, last, seen = [], {}, set()
+    for pv in q.order_by(PageView.session_id, PageView.created_at).all():
+        vid = (pv.session_id or "anon")[:24]
+        prev = last.get(vid)
+        if not prev or (pv.created_at - prev["t"]).total_seconds() > 1800:
+            sid = hashlib.sha256(f"{vid}{pv.created_at.isoformat()}".encode()).hexdigest()[:24]
+            utm = pv.utm_source or ""
+            ref = pv.referrer_host or ""
+            src = ("QR Code" if utm.lower().startswith("qr") else clip(utm.replace("-", " ").replace("_", " ").title(), 40) if utm
+                   else next((v for k, v in NAMED.items() if k in ref), None) or (clip(ref.removeprefix("www."), 40) if ref else "Direct"))
+            prev = last[vid] = {"sid": sid, "src": src}
+        prev["t"] = pv.created_at
+        base = dict(vid=vid, sid=prev["sid"], src=prev["src"], path=(pv.path or "/")[:200], device="Unknown", browser="Unknown", os="Unknown",
+                    country="Unknown", region="Unknown", new=vid not in seen)
+        seen.add(vid)
+        rows.append(InsightEvent(ts=pv.created_at, kind="view", label=IMPORTED, **base))
+        if pv.duration_seconds:
+            rows.append(InsightEvent(ts=pv.created_at + timedelta(seconds=min(pv.duration_seconds, 3600)), kind="time",
+                                     value=float(min(pv.duration_seconds, 3600)), **base))
+    db.session.add_all(rows)
+    db.session.commit()
+    return sum(1 for r in rows if r.kind == "view")

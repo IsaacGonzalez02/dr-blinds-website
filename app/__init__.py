@@ -57,6 +57,17 @@ def create_app():
             db.session.add(owner)
             db.session.commit()
 
+        # Bring the classic analytics history into the new Analytics page (runs once; never blocks the site)
+        try:
+            from .insights import import_classic
+
+            moved = import_classic()
+            if moved:
+                app.logger.info("Insights: imported %s classic page views", moved)
+        except Exception:
+            db.session.rollback()
+            app.logger.exception("Insights: classic import failed (non-fatal)")
+
     @app.context_processor
     def inject_globals():
         return {
