@@ -130,6 +130,11 @@ def products():
     return render_template("products.html", products=PRODUCTS, colors=PRODUCT_COLORS)
 
 
+@public_bp.route("/card", strict_slashes=False)
+def card():
+    return render_template("card.html")
+
+
 @public_bp.route("/request-estimate", methods=["GET", "POST"])
 def request_estimate():
     form = EstimateRequestForm()
