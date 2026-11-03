@@ -236,6 +236,8 @@
 
   const toast = (msg) => { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2000); };
   const URL_ = "https://www.drblindsdecorandservices.com/card";
+  // the QR adds ?utm_source=card-qr; once the tracker (deferred, so it runs before DOMContentLoaded) has read it, show the clean link
+  document.addEventListener("DOMContentLoaded", () => { if (location.search) history.replaceState(null, "", location.pathname + location.hash); });
   document.getElementById("share").addEventListener("click", async () => {
     if (navigator.share) { try { await navigator.share({ title: "Dr Blinds Decor & Services · Digital Card", text: "Dr Blinds: blinds, shades & window treatments. Free estimates.", url: URL_ }); } catch (e) {} return; }
     try { await navigator.clipboard.writeText(URL_); toast("Link copied!"); } catch (e) { toast(URL_); }
